@@ -5,6 +5,14 @@ public class RichWord {
 	private String parola;
 	private boolean corretta;
 	
+
+	public RichWord(String parolaDaAnalizzare) {
+
+		parola=parolaDaAnalizzare;
+			
+	}
+
+	
 	public RichWord(String parolaDaAnalizzare, boolean b) {
 
 		parola=parolaDaAnalizzare;

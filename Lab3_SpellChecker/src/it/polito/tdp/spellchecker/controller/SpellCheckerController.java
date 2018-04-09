@@ -55,15 +55,22 @@ public class SpellCheckerController {
     
     @FXML
     void doClearText(ActionEvent event) {
-    	
-    	txtWrong.clear();
+    
     	txtInsert.clear();
+    	txtWrong.clear();
+    	txtErrors.setText("");
     	paroleinserite.clear();
 
     }
 
     @FXML
     void doSpellCheck(ActionEvent event) {
+    	
+    	txtWrong.clear();
+
+    	paroleinserite.clear();
+    	    	
+    	int cont=0;
     	
     	String insert = txtInsert.getText().replaceAll("[.,\\/#!$%?\\^&\\*;:{}=\\-_`~()\\[\\]\"]" , "");
     	
@@ -75,16 +82,30 @@ public class SpellCheckerController {
 		
     		paroleinserite.add(parola.toLowerCase());  
 		
-    	}System.out.println(paroleinserite);
+    	}
+    	
+    	long startTime = System.nanoTime();
 		
 		d.loadDictionary(listchoice.getValue());
+		d.spellCheckText(paroleinserite);
+		
+		long stopTime = System.nanoTime();
     	
     	for(RichWord r : d.spellCheckText(paroleinserite)) {
     		
-    		if(r.isCorretta()==false)
+    		if(r.isCorretta()==false) {
+    			
+    			cont++;
     			
     			txtWrong.appendText(""+r.getParola()+"\n");
+    		}
     	}
+    	
+    	
+    	txtErrors.setText("Il testo contiene "+cont+" errori");
+    	long estimatedTime = stopTime - startTime;
+    	
+    	txtPerformance.setText("SpellCheck completato in "+estimatedTime/ 1e9+ " secondi");
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -96,12 +117,14 @@ public class SpellCheckerController {
         assert txtErrors != null : "fx:id=\"txtErrors\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         assert btnClear != null : "fx:id=\"btnClear\" was not injected: check your FXML file 'SpellChecker.fxml'.";
         assert txtPerformance != null : "fx:id=\"txtPerformance\" was not injected: check your FXML file 'SpellChecker.fxml'.";
-            
-        
-        listchoice.getItems().addAll("italiano", "inglese");
-        
-        listchoice.getSelectionModel().selectFirst();
-        
-        listchoice.show();
+         
     }
+
+	public void setModel(Dictionary model) {
+					
+        listchoice.getItems().addAll("Italian", "English");
+       
+		d= model;
+		
+	}
 }
