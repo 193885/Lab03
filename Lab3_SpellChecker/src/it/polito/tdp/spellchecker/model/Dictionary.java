@@ -13,8 +13,7 @@ public class Dictionary {
 	
 	private String lingua;
 	private List<String> diz;
-	private List <RichWord> paroleControllate = new LinkedList<>();
-		
+			
 	public Dictionary() {
 	}
 	
@@ -52,6 +51,8 @@ public class Dictionary {
 	}
 
 	public List<RichWord> spellCheckText(List<String> inputTextList){
+		
+		List <RichWord> paroleControllate = new LinkedList<>();
 												
 			for(String parolaDaAnalizzare : inputTextList) {
 				
@@ -70,4 +71,87 @@ public class Dictionary {
 									
 				return paroleControllate;	
 	}
+	
+	public List <RichWord> spellCheckTextLinear(List<String> inputTextList){
+		
+		List <RichWord> paroleControllate = new LinkedList<>();
+		
+		boolean trovato=false;		
+		
+		for(String parolaDaAnalizzare : inputTextList) {
+			
+			RichWord richWord = new RichWord(parolaDaAnalizzare);
+			
+			for (String s : diz) {
+				
+				if ( s.compareTo(parolaDaAnalizzare)==0) {
+					
+					trovato = true;
+					break;
+					
+				}
+			}
+				if(trovato) 
+				
+					richWord.setCorretta(true);
+								
+				else
+
+					paroleControllate.add(new RichWord(parolaDaAnalizzare));
+
+			}
+			
+		return paroleControllate;
+		
+	}
+	
+	public List <RichWord> spellCheckTextDichotomic(List<String> inputTextList){
+		
+		List <RichWord> paroleControllate = new LinkedList<>();
+		
+		for (String parolaDaAnalizzare : inputTextList) {
+			
+			RichWord richWord = new RichWord(parolaDaAnalizzare);
+			
+			if(ricercaDicotomica(parolaDaAnalizzare))
+				
+				richWord.setCorretta(true);
+			
+			else {
+				
+				richWord.setCorretta(false);
+				paroleControllate.add(richWord);
+				
+			}
+			
+		}
+		
+		return paroleControllate;
+	}
+		
+	private boolean ricercaDicotomica(String parola) {
+		
+		int inizio=0;
+		int fine = diz.size();
+		
+		while (inizio!=fine) {
+			
+			int medio= (fine+inizio)/2;
+			
+			if(parola.compareTo(diz.get(medio))==0) 
+				
+				return true;
+				
+			else if ( parola.compareTo( diz.get(medio) ) > 0)
+			
+				inizio= medio+1;
+			
+			else
+				
+				fine= medio-1;
+		}
+		
+		return false;			
+	}
+			
 }

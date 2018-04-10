@@ -49,7 +49,7 @@ public class SpellCheckerController {
     @FXML // fx:id="txtPerformance"
     private Label txtPerformance; // Value injected by FXMLLoader
     
-   private List <String> paroleinserite = new LinkedList <>();
+   private List <String> paroleinserite;
    
    private Dictionary d = new Dictionary();
     
@@ -66,10 +66,12 @@ public class SpellCheckerController {
     @FXML
     void doSpellCheck(ActionEvent event) {
     	
+    	paroleinserite = new LinkedList <>();
+    	
     	txtWrong.clear();
 
     	paroleinserite.clear();
-    	    	
+    	
     	int cont=0;
     	
     	String insert = txtInsert.getText().replaceAll("[.,\\/#!$%?\\^&\\*;:{}=\\-_`~()\\[\\]\"]" , "");
@@ -84,9 +86,9 @@ public class SpellCheckerController {
 		
     	}
     	
+    	d.loadDictionary(listchoice.getValue());
     	long startTime = System.nanoTime();
-		
-		d.loadDictionary(listchoice.getValue());
+	
 		d.spellCheckText(paroleinserite);
 		
 		long stopTime = System.nanoTime();
