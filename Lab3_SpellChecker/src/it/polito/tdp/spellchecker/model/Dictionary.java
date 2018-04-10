@@ -132,9 +132,9 @@ public class Dictionary {
 	private boolean ricercaDicotomica(String parola) {
 		
 		int inizio=0;
-		int fine = diz.size();
+		int fine = diz.size()-1;
 		
-		while (inizio!=fine) {
+		while (inizio<=fine) {
 			
 			int medio= (fine+inizio)/2;
 			

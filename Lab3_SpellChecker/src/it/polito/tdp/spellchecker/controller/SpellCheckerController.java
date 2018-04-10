@@ -89,7 +89,7 @@ public class SpellCheckerController {
     	d.loadDictionary(listchoice.getValue());
     	long startTime = System.nanoTime();
 	
-		d.spellCheckText(paroleinserite);
+		d.spellCheckTextDichotomic(paroleinserite);
 		
 		long stopTime = System.nanoTime();
     	
